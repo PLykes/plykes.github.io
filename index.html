@@ -83,17 +83,16 @@ Added:
 			<br>
 			<h3>Watching:</h3>
 				<ul>
-					<li>Recently Watched:</li>
-						<ul>
-			               <div id="letterboxd-embed-wrapper-tc">Loading...</div>
-							<script>
-							fetch('https://lb-embed-content.bokonon.dev?username=400Troglodytes')
-							.then(response => response.text())
-							.then(data => {
-							document.getElementById('letterboxd-embed-wrapper-tc').innerHTML = data;
-							});
-							</script>
-			            </ul>
+					<ul>
+						<div id="letterboxd-embed-wrapper-tc">Loading...</div>
+						<script>
+						fetch('https://lb-embed-content.bokonon.dev?username=400Troglodytes')
+						.then(response => response.text())
+						.then(data => {
+						document.getElementById('letterboxd-embed-wrapper-tc').innerHTML = data;
+						});
+						</script>
+					</ul>
 		            <li><a href="https://boxd.it/VTxnm">My Top 20 Films</a></li>
 		            <li>Suggestions:</li>
 		            	<ul>
@@ -141,10 +140,6 @@ Added:
 		</div>
 	</body>
 </html>
-
-
-
-
 
 
 
