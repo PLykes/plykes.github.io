@@ -83,16 +83,6 @@ Added:
 			<br>
 			<h3>Watching:</h3>
 				<ul>
-					<ul>
-						<div id="letterboxd-embed-wrapper-tc">Loading...</div>
-						<script>
-						fetch('https://lb-embed-content.bokonon.dev?username=400Troglodytes')
-						.then(response => response.text())
-						.then(data => {
-						document.getElementById('letterboxd-embed-wrapper-tc').innerHTML = data;
-						});
-						</script>
-					</ul>
 		            <li><a href="https://boxd.it/VTxnm">My Top 20 Films</a></li>
 		            <li>Suggestions:</li>
 		            	<ul>
@@ -100,6 +90,17 @@ Added:
 							<li><a href="https://www.youtube.com/watch?v=yJDv-zdhzMY&list=PLGdj1pts6A4cAoKpga7CDr_-K39NafYPF&index=3">The Mother of All Demos (1968) 1:40:53</a></li>
 							<li><a href="https://www.youtube.com/watch?v=ESLn1OUxMGI&list=PLGdj1pts6A4dgwCqS0BfSOEcfQc4yoMjj&index=2">The Dante Quartet - Stan Brakhage 6:06</a></li>
 		            	</ul>
+					<li>Recently Watched:</li>
+						<ul>
+							<div id="letterboxd-embed-wrapper-tc">Loading...</div>
+							<script>
+							fetch('https://lb-embed-content.bokonon.dev?username=400Troglodytes')
+							.then(response => response.text())
+							.then(data => {
+							document.getElementById('letterboxd-embed-wrapper-tc').innerHTML = data;
+							});
+							</script>
+						</ul>
 	            </ul><br>
 		
 			<h3>Reading:</h3>
@@ -140,9 +141,6 @@ Added:
 		</div>
 	</body>
 </html>
-
-
-
 
 
 
