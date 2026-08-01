@@ -1,12 +1,9 @@
 <!--
-Website v.1.6
-JUL, 31 2026
+Website v.1.6.1
+AUG, 1 2026
 
-Added:
--Updated Lists
--Added Resume and Portfolio
--Adjusted footer spacing
--New LetterBoxd Diary Widget
+Changes:
+-Reworked Letterboxed Diary Widget
 
 -->
 <!DOCTYPE html>
@@ -83,24 +80,46 @@ Added:
 			<br>
 			<h3>Watching:</h3>
 				<ul>
-		            <li><a href="https://boxd.it/VTxnm">My Top 20 Films</a></li>
-		            <li>Suggestions:</li>
-		            	<ul>
-		            		<li><a href="https://youtu.be/eJ3RzGoQC4s">The Century of The Self 3:54:44</a></li>
-							<li><a href="https://www.youtube.com/watch?v=yJDv-zdhzMY&list=PLGdj1pts6A4cAoKpga7CDr_-K39NafYPF&index=3">The Mother of All Demos (1968) 1:40:53</a></li>
-							<li><a href="https://www.youtube.com/watch?v=ESLn1OUxMGI&list=PLGdj1pts6A4dgwCqS0BfSOEcfQc4yoMjj&index=2">The Dante Quartet - Stan Brakhage 6:06</a></li>
-		            	</ul>
-					<li>Recently Watched:</li>
-						<ul>
-							<div id="letterboxd-embed-wrapper-tc">Loading...</div>
-							<script>
-							fetch('https://lb-embed-content.bokonon.dev?username=400Troglodytes')
-							.then(response => response.text())
-							.then(data => {
-							document.getElementById('letterboxd-embed-wrapper-tc').innerHTML = data;
-							});
-							</script>
+					<li>Last Seen:</li>
+						<ul id="letterboxd-diary">
+							<li>Loading...</li>
 						</ul>
+						<script>
+						(function() {
+							var feedUrl = encodeURIComponent('https://letterboxd.com/400Troglodytes/rss/');
+							fetch('https://api.rss2json.com/v1/api.json?rss_url=' + feedUrl + '&count=10')
+							.then(function(res) { return res.json(); })
+							.then(function(data) {
+								var list = document.getElementById('letterboxd-diary');
+								list.innerHTML = '';
+								data.items.slice(0, 10).forEach(function(item) {
+									var match = item.title.match(/^(.+), (\d{4}) - (.+)$/);
+									if (!match) return;
+									var name = match[1], year = match[2], stars = match[3];
+									var rating = (stars.match(/★/g) || []).length + (stars.match(/½/g) || []).length * 0.5;
+									var ratingText = (rating % 1 === 0) ? rating : rating.toFixed(1);
+									var li = document.createElement('li');
+									var a = document.createElement('a');
+									a.href = item.link;
+									a.target = '_blank';
+									a.textContent = name + ' (' + year + ')';
+									li.appendChild(a);
+									li.appendChild(document.createTextNode(' ' + ratingText + '/5'));
+									list.appendChild(li);
+								});
+							})
+							.catch(function() {
+								document.getElementById('letterboxd-diary').innerHTML = '<li>Could not load Letterboxd diary.</li>';
+							});
+						})();
+						</script>
+						<li><a href="https://boxd.it/VTxnm">My Top 20 Films</a></li>
+						<li>Suggestions:</li>
+							<ul>
+								<li><a href="https://youtu.be/eJ3RzGoQC4s">The Century of The Self 3:54:44</a></li>
+								<li><a href="https://www.youtube.com/watch?v=yJDv-zdhzMY&list=PLGdj1pts6A4cAoKpga7CDr_-K39NafYPF&index=3">The Mother of All Demos (1968) 1:40:53</a></li>
+								<li><a href="https://www.youtube.com/watch?v=ESLn1OUxMGI&list=PLGdj1pts6A4dgwCqS0BfSOEcfQc4yoMjj&index=2">The Dante Quartet - Stan Brakhage 6:06</a></li>
+							</ul>
 	            </ul><br>
 		
 			<h3>Reading:</h3>
@@ -141,8 +160,6 @@ Added:
 		</div>
 	</body>
 </html>
-
-
 
 
 
