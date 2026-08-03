@@ -4,7 +4,6 @@ AUG, 3 2026
 
 Features:
 -Theme changing button: (Night, Day, Space)
--Added Middle Name to Title
 
 -->
 <!DOCTYPE html>
@@ -283,8 +282,7 @@ Features:
 			var toggleBtn = document.getElementById('pml-toggle');
 			var THEME_ORDER = ['day', 'night', 'space'];
 			var stored = localStorage.getItem('pml-theme');
-			var prefersNight = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-			var theme = (THEME_ORDER.indexOf(stored) !== -1) ? stored : (prefersNight ? 'night' : 'day');
+			var theme = (THEME_ORDER.indexOf(stored) !== -1) ? stored : 'day';
 
 			function applyTheme() {
 				document.documentElement.classList.remove('night', 'space');
