@@ -1,9 +1,10 @@
 <!--
-Website v.1.6.1
-AUG, 1 2026
+Website v.1.7
+AUG, 3 2026
 
-Changes:
--Reworked Letterboxed Diary Widget
+Features:
+-Theme changing button: (Night, Day, Space)
+-Added Middle Name to Title
 
 -->
 <!DOCTYPE html>
@@ -13,13 +14,52 @@ Changes:
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
+		            :root {
+		                --bg: #ffffff;
+		                --text: #111111;
+		            }
+		            html.night {
+		                --bg: #111111;
+		                --text: #ffffff;
+		            }
+		            html.space {
+		                --bg: #000000;
+		                --text: #33ffcc;
+		            }
 		            html * {
 		                /* line-height: 1.625; */
 		                font-family: Georgia;
 		            }
+		            html, body {
+		                background: var(--bg);
+		                color: var(--text);
+		                transition: background 0.5s ease, color 0.5s ease;
+		            }
+		            html.space body {
+		                background-image: url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/7QGhQWRvYmVfUGhvdG9zaG9wMi41OgBIAAAASAAAOEJJTQPpAAAAAAB4AAMAAABIAEgAAAAAAtoCKP/h/+IC+QJGA0cFKAP8AAIAAABIAEgAAAAAAtgCKAABAAAAZAAAAAEAAwMDAAAAAScPAAEAAQAAAAAAAAAAAAAAAGAIABkBkAAAAAAQAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAOEJJTQPtAAAAAAAQAEgAAAABAAEASAAAAAEAAThCSU0D8wAAAAAABwAAAAAAAAAAOEJJTQP1AAAAAABIAC9mZgABAGxmZgAGAAAAAAAAAC9mZgABAKGZmgAGAAAAAAAAADIAAAABAFoAAAAGAAAAAAAAADUAAAABAC0AAAAGAAAAAAAAOEJJTQP4AAAAAABwAAD/////////////////////////////A+gAAAAA/////////////////////////////wPoAAAAAP////////////////////////////8D6AAAAAD/////////////////////////////A+gAAP/uAA5BZG9iZQBkgAAAAAH/2wCEAAUDAwMEAwQEBAUHBQUFBwkHBwcGCQ0NCggKDA0QEA8PDw8RERQUEhISExAUFhYWFhcaGhoZFxoaGhoaGhoaGhoBBQUFBgYGBwcHBwoJCAkJDA0PDw0NEBESFBIRDxAVFRgYFhYSGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGv/AABEIAJAAkAMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAADAAECBAUGBwgJCgsBAAEFAQEBAQEBAAAAAAAAAAEAAgMEBQYHCAkKCxAAAQQBAwIEAgUGBggHAw1hAQACEQMEIRIxBUFRYRMicYEyBhSRobFCIyQVUmIzNMFygkMHJZIIU9HwY3M1FuGi8bKDJkSTVGRFwqN0NhcY0lXiZfKzhMPTdePzRieUpIW0lcTU5PSltcXV5fVWZnaGlqa2xtbm9jdHV2d3h5ent8fX5/coOEhYaHiImKi4yNjo+AkZKTlJWWl5iZmpucnZ6fkKGio6SlpqeoqaqrrK2ur6EQACAgECBAQDBAQGCAYHBmcBAAIRAyExEgRBUWFxIhMFMoGRFKGxQiPBUjPRJPBi4XKC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");
+		                background-repeat: repeat;
+		            }
+		            html.space a:link {
+		                color: #cc99ff;
+		            }
+		            html.space a:visited {
+		                color: #66cccc;
+		            }
+		            html.space a:active {
+		                color: #ff0066;
+		            }
+		            html.space h1 {
+		                color: #ff0000;
+		            }
+		            html.space h3 {
+		                color: #ff0099;
+		            }
+		            html.space h3 i {
+		                color: #ffff66;
+		            }
 		            body {
-		                display:flex;  
-		                flex-direction:row; 
+		                display:flex;
+		                flex-direction:row;
 		                justify-content:center;
 		                min-height:100vh;
 		            }
@@ -65,10 +105,38 @@ Changes:
 		                padding-top: 0;
 		                padding-bottom: 0;
 		            }
+
+		            .pml-badge {
+		                position: fixed;
+		                bottom: 20px;
+		                right: 20px;
+		                width: 72px;
+		                height: 72px;
+		                padding: 0;
+		                background: transparent;
+		                border: none;
+		                box-shadow: none;
+		                display: block;
+		                z-index: 1000;
+		                text-decoration: none;
+		                cursor: pointer;
+		                transition: transform 0.15s ease;
+		            }
+		            .pml-badge:hover {
+		                transform: scale(1.08);
+		                box-shadow: none;
+		            }
+		            .pml-badge canvas {
+		                display: block;
+		                width: 100%;
+		                height: 100%;
+		                image-rendering: pixelated;
+		                image-rendering: crisp-edges;
+		            }
 		        </style></head>
 	<body>
 		<div>
-			<header><h1><b>Palmer Lykes</b></h1>
+			<header><h1><b>Palmer McKay Lykes</b></h1>
 				<h3><i>What does not change / is the will to change</i></h3>
 			</header>
 			<br>
@@ -158,6 +226,145 @@ Changes:
 			</footer>
 
 		</div>
+
+		<button type="button" class="pml-badge" id="pml-toggle" title="Cycle day / night / space theme" aria-label="Cycle day, night, and space theme">
+			<canvas id="pml-canvas" width="72" height="72"></canvas>
+		</button>
+		<script>
+		(function() {
+			var canvas = document.getElementById('pml-canvas');
+			var ctx = canvas.getContext('2d');
+			var W = canvas.width, H = canvas.height;
+			ctx.imageSmoothingEnabled = false;
+
+			var GLYPHS = {
+				P: [
+					[1,1,1,1,0],
+					[1,0,0,0,1],
+					[1,0,0,0,1],
+					[1,1,1,1,0],
+					[1,0,0,0,0],
+					[1,0,0,0,0],
+					[1,0,0,0,0]
+				],
+				M: [
+					[1,0,0,0,1],
+					[1,1,0,1,1],
+					[1,0,1,0,1],
+					[1,0,1,0,1],
+					[1,0,0,0,1],
+					[1,0,0,0,1],
+					[1,0,0,0,1]
+				],
+				L: [
+					[1,0,0,0,0],
+					[1,0,0,0,0],
+					[1,0,0,0,0],
+					[1,0,0,0,0],
+					[1,0,0,0,0],
+					[1,0,0,0,0],
+					[1,1,1,1,1]
+				]
+			};
+
+			var PIXEL = 4;
+			var GAP = 1;
+			var letters = ['P', 'M', 'L'];
+			var letterWidth = 5 * PIXEL;
+			var gapWidth = GAP * PIXEL;
+			var totalWidth = letters.length * letterWidth + (letters.length - 1) * gapWidth;
+			var totalHeight = 7 * PIXEL;
+			var startX = Math.round((W - totalWidth) / 2);
+			var startY = Math.round((H - totalHeight) / 2);
+
+			var BAR_COLORS = ['#1f6feb', '#5aa4ff', '#1f6feb'];
+			var SPECK_COLORS = ['178,235,255', '120,180,255', '200,225,255'];
+
+			var toggleBtn = document.getElementById('pml-toggle');
+			var THEME_ORDER = ['day', 'night', 'space'];
+			var stored = localStorage.getItem('pml-theme');
+			var prefersNight = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+			var theme = (THEME_ORDER.indexOf(stored) !== -1) ? stored : (prefersNight ? 'night' : 'day');
+
+			function applyTheme() {
+				document.documentElement.classList.remove('night', 'space');
+				if (theme !== 'day') document.documentElement.classList.add(theme);
+				toggleBtn.setAttribute('aria-label', 'Cycle theme (currently ' + theme + ' mode)');
+			}
+			applyTheme();
+
+			toggleBtn.addEventListener('click', function() {
+				var idx = THEME_ORDER.indexOf(theme);
+				theme = THEME_ORDER[(idx + 1) % THEME_ORDER.length];
+				localStorage.setItem('pml-theme', theme);
+				applyTheme();
+			});
+
+			function drawLetters() {
+				var barColors = BAR_COLORS;
+				var x = startX;
+				letters.forEach(function(letter) {
+					var grid = GLYPHS[letter];
+					for (var row = 0; row < grid.length; row++) {
+						var color = barColors[row % barColors.length];
+						for (var col = 0; col < grid[row].length; col++) {
+							if (grid[row][col]) {
+								ctx.fillStyle = color;
+								ctx.fillRect(x + col * PIXEL, startY + row * PIXEL, PIXEL, PIXEL);
+							}
+						}
+					}
+					x += letterWidth + gapWidth;
+				});
+			}
+
+			var cx = W / 2, cy = H / 2;
+			var specs = [
+				{ rx: 30, ry: 11, tilt: 0, angle: 0, speed: 0.045, trail: [], colorIndex: 0 },
+				{ rx: 30, ry: 11, tilt: Math.PI / 3, angle: Math.PI * 0.66, speed: 0.038, trail: [], colorIndex: 1 },
+				{ rx: 30, ry: 11, tilt: -Math.PI / 3, angle: Math.PI * 1.3, speed: 0.052, trail: [], colorIndex: 2 }
+			];
+			var TRAIL_LENGTH = 14;
+			var SPECK_PIXEL = 2;
+
+			function drawTrail(trail, wantFront) {
+				trail.forEach(function(point, i) {
+					if (point.front !== wantFront) return;
+					var alpha = (i + 1) / trail.length;
+					var size = SPECK_PIXEL * (alpha > 0.6 ? 1 : (alpha > 0.3 ? 0.75 : 0.5));
+					var px = Math.round(point.x / size) * size;
+					var py = Math.round(point.y / size) * size;
+					ctx.fillStyle = 'rgba(' + point.color + ',' + (alpha * 0.85) + ')';
+					ctx.fillRect(px, py, size, size);
+				});
+			}
+
+			function step() {
+				ctx.clearRect(0, 0, W, H);
+				var speckColors = SPECK_COLORS;
+
+				specs.forEach(function(spec) {
+					spec.angle += spec.speed;
+					var ex = Math.cos(spec.angle) * spec.rx;
+					var ey = Math.sin(spec.angle) * spec.ry;
+					var x = cx + ex * Math.cos(spec.tilt) - ey * Math.sin(spec.tilt);
+					var y = cy + ex * Math.sin(spec.tilt) + ey * Math.cos(spec.tilt);
+					var front = Math.sin(spec.angle) >= 0;
+
+					spec.trail.push({ x: x, y: y, front: front, color: speckColors[spec.colorIndex] });
+					if (spec.trail.length > TRAIL_LENGTH) spec.trail.shift();
+				});
+
+				specs.forEach(function(spec) { drawTrail(spec.trail, false); });
+				drawLetters();
+				specs.forEach(function(spec) { drawTrail(spec.trail, true); });
+
+				requestAnimationFrame(step);
+			}
+
+			requestAnimationFrame(step);
+		})();
+		</script>
 	</body>
 </html>
 
