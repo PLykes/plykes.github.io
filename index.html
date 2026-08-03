@@ -1,10 +1,13 @@
 <!--
-Website v.1.7
+Website v.1.7.1
 AUG, 3 2026
 
 Features:
 -Theme changing button: (Night, Day, Space)
 
+Updates:
+-Recently Read
+-Night theme link colours lightened for visibility 
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +23,12 @@ Features:
 		            html.night {
 		                --bg: #111111;
 		                --text: #ffffff;
+		            }
+		            html.night a:link {
+		                color: #7ab8ff;
+		            }
+		            html.night a:visited {
+		                color: #c9a0ff;
 		            }
 		            html.space {
 		                --bg: #000000;
@@ -193,12 +202,10 @@ Features:
 				<ul>
 					<li>Recent Favorites:</li>
 						<ul>
-							<li>The Seagull - Anton Chekov</li>
-							<li>After The Quake - Haruki Murakami</li>
-							<li>The Trial - Franz Kafka</li>
-							<li>Notes from Underground - Fyodor Dostoyevsky</li>
-							<li>Fear and Loathing in Las Vegas - Hunter S. Thompson</li>
-							<li>On The Road - Jack Kerouac</li>
+							<li>The Passion According to G.H. - Clarice Lispector</li>
+                            <li>The Seagull - Anton Chekov</li>
+                            <li>Absalom, Absalom - William Faulkner</li>
+                            <li>Francis Bacon: The Logic of Sensation - Gilles Deleuze</li>
 							<li>The Films of Stan Brakhage in the American Tradition - R. Bruce Elder</li>
 						</ul>
 					<li>Suggestions:</li>
@@ -365,6 +372,3 @@ Features:
 		</script>
 	</body>
 </html>
-
-
-
