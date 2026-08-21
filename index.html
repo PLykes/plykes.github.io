@@ -1,13 +1,15 @@
 <!--
-Website v.1.7.1
-AUG, 3 2026
+Website v.1.8.0
+AUG, 21 2026
 
-Features:
--Theme changing button: (Night, Day, Space)
+Additions:
+-Switched out Spotify widget for static Apple Music 2026 replay top 10
+-Photography section with scroll widget
 
-Updates:
--Recently Read
--Night theme link colours lightened for visibility 
+Changes:
+-Removed animated initials button, Theme changing button switched to text in footer
+-The Kingfishers line now links to poem
+
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -16,23 +18,49 @@ Updates:
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
-		            :root {
+		           
+
+					:root {
 		                --bg: #ffffff;
 		                --text: #111111;
+						--ltext: blue;
+						--vltext: purple;
 		            }
+					.button {
+						border: none;
+						color: var(--ltext);
+						padding: 16px 32px;
+						font-weight: bold;
+						text-align: center;
+						text-decoration: none;
+						display: contents;
+						font-size: 16px;
+						margin: 4px 2px;
+						transition-duration: 0.4s;
+						cursor: pointer;
+					}
+
+					.button:hover {
+						color: red;
+					}
+
 		            html.night {
 		                --bg: #111111;
 		                --text: #ffffff;
+						--ltext: #7ab8ff;
+						--vltext: #c9a0ff;
 		            }
 		            html.night a:link {
-		                color: #7ab8ff;
+		                color: var(--ltext);
 		            }
 		            html.night a:visited {
-		                color: #c9a0ff;
+		                color: var(--vltext);
 		            }
 		            html.space {
 		                --bg: #000000;
 		                --text: #33ffcc;
+						--ltext: #66cccc;
+						--vltext: #cc99ff;
 		            }
 		            html * {
 		                /* line-height: 1.625; */
@@ -48,10 +76,10 @@ Updates:
 		                background-repeat: repeat;
 		            }
 		            html.space a:link {
-		                color: #cc99ff;
+		                color: var(--ltext);
 		            }
 		            html.space a:visited {
-		                color: #66cccc;
+		                color: var(--vltext);
 		            }
 		            html.space a:active {
 		                color: #ff0066;
@@ -84,6 +112,30 @@ Updates:
 		                margin-right: auto;
 		            }
 
+		            .photo-scroll {
+		                display: flex;
+		                flex-direction: row;
+		                overflow-x: auto;
+		                gap: 8px;
+		                max-width: 480px;
+		                margin: 0;
+		                padding-bottom: 6px;
+		            }
+		            .photo-tile {
+		                display: flex;
+		                flex: 0 0 auto;
+		                height: 220px;
+		                align-items: center;
+		            }
+		            .photo-tile img {
+		                height: 100%;
+		                width: auto;
+		                max-width: none;
+		                object-fit: contain;
+		                border-radius: 0;
+		                margin: 0;
+		            }
+
 
 		            p {
 		                font-size: medium;
@@ -113,46 +165,58 @@ Updates:
 		                padding-top: 0;
 		                padding-bottom: 0;
 		            }
-
-		            .pml-badge {
-		                position: fixed;
-		                bottom: 20px;
-		                right: 20px;
-		                width: 72px;
-		                height: 72px;
-		                padding: 0;
-		                background: transparent;
-		                border: none;
-		                box-shadow: none;
-		                display: block;
-		                z-index: 1000;
-		                text-decoration: none;
-		                cursor: pointer;
-		                transition: transform 0.15s ease;
-		            }
-		            .pml-badge:hover {
-		                transform: scale(1.08);
-		                box-shadow: none;
-		            }
-		            .pml-badge canvas {
-		                display: block;
-		                width: 100%;
-		                height: 100%;
-		                image-rendering: pixelated;
-		                image-rendering: crisp-edges;
-		            }
+					
+					
+		            
 		        </style></head>
 	<body>
 		<div>
-			<header><h1><b>Palmer McKay Lykes</b></h1>
-				<h3><i>What does not change / is the will to change</i></h3>
+			<header>
+				<h1><b>Palmer McKay Lykes</b></h1>
+				<a href="https://www.poetryfoundation.org/poems/54310/the-kingfishers-56d234829d88a" title="The Kingfishers by Charles Olson" target="_blank" style="size: 24px; font-weight: bold;font-style: italic;color: var(--text); text-decoration: none;">What does not change / is the will to change</a>
 			</header>
 			<br>
 			<h3>Important Links:</h3>
 				<ul>
 					<li><a href="https://docs.google.com/document/d/12oPVAFrM_q5XIOYTUqi2JzFz3CNirQjq/edit?usp=sharing&ouid=108696409326250768438&rtpof=true&sd=true">Resume</a></li>
-					<li><a href="https://drive.google.com/file/d/1c-9MX-ucoljnmIb8puO7hHXwb3N_XCOh/view?usp=sharing"> Graphics Portfolio: SIGNPOST Posters and Assests</a></li>	
+					<li><a href="https://drive.google.com/file/d/1c-9MX-ucoljnmIb8puO7hHXwb3N_XCOh/view?usp=sharing"> Graphics Portfolio: SIGNPOST Posters and Assests</a></li>
 				</ul>
+			<br>
+			<h3>Photography:</h3>
+				<div id="photo-scroll" class="photo-scroll"></div>
+				<script>
+				(function() {
+					var REPO_BASE = 'https://cdn.jsdelivr.net/gh/PLykes/Photos-for-Website@main/photos/';
+					var PHOTOS = [
+						'---_0123.jpg', '---_0185.jpg', '---_0170.jpg', '000004460004.jpg', 
+						'000004440019.jpg', '---_0117.jpg', '---_0116.jpg', '---_0229.jpg', 
+						'000004440003.jpg', '---_0273.jpg', '---_0108.jpg', '---_0270.jpg', 
+						'---_0225.jpg', '---_0293.jpg', '---_0124.jpg', '---_0244.jpg', 
+						'---_0277.jpg', '---_0279.jpg', '---_0288.jpg', '---_0289.jpg',
+						'000004460024.jpg', 'DSC04439.jpg', 'DSC04285.jpg', 'DSC04260-2.jpg', 
+						'DSC04435.jpg', 'DSC04215.jpg', 'DSC04266.jpg', 'DSC04212.jpg', 
+						'DSC04114.jpg','DSC04058.jpg', 'DSC01607.jpg', 'DSC01593.jpg', 
+						'DSC01662.jpg', 'DSC01671.jpg'
+						
+					];
+					var scroller = document.getElementById('photo-scroll');
+
+					PHOTOS.forEach(function(name) {
+						var a = document.createElement('a');
+						a.href = REPO_BASE + name;
+						a.target = '_blank';
+						a.className = 'photo-tile';
+
+						var img = document.createElement('img');
+						img.src = REPO_BASE + 'thumbs/' + name;
+						img.loading = 'lazy';
+						img.alt = '';
+
+						a.appendChild(img);
+						scroller.appendChild(a);
+					});
+				})();
+				</script>
 			<br>
 			<h3>Watching:</h3>
 				<ul>
@@ -216,9 +280,33 @@ Updates:
 				</ul><br>
 
 			<h3>Listening:</h3>
-				<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2uP03CSJKewR4AB4bn76OO?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
-			
+				<ul>
+					<li><a href="https://music.apple.com/us/playlist/replay-2026/pl.rp-OLddH2w0W33" target="_blank">Apple Music Replay 2026</a> (Top 10):</li>
+						<ul>
+							<li>Arahja - Kult (3:40)</li>
+							<li>Hard To Handle - Otis Redding (2:20)</li>
+							<li>Glad and Sorry - Faces (3:06)</li>
+							<li>Nie Płacz Ewka - Perfect (5:42)</li>
+							<li>The Night They Drove Old Dixie Down - The Band (3:31)</li>
+							<li>Пачка сигарет - Kino (4:26)</li>
+							<li>Stay With Me - Faces (4:40)</li>
+							<li>Gotta Serve Somebody - Etta James (6:48)</li>
+							<li>Changes (feat. The Budos Band) - Charles Bradley (5:42)</li>
+							<li>I Can't Stand Up for Falling Down - Sam & Dave (2:42)</li>
+						</ul>
+					<!--
+						curl -s -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36" "https://music.apple.com/us/playlist/replay-2026/pl.rp-OLddH2w0W33" | python3 -c '
+						import re,sys
+						data=sys.stdin.read()
+						for m in list(re.finditer(r"\"track-lockup - pl\.rp-OLddH2w0W33 - \d+\",\"title\":",data))[:10]:
+							c=data[m.start():m.start()+3000]
+							t=re.search(r"\"title\":\"((?:[^\"\\\\]|\\\\.)*)\"",c).group(1)
+							a=re.search(r"\"subtitleLinks\":\[\{\"title\":\"((?:[^\"\\\\]|\\\\.)*)\"",c).group(1)
+							d=int(re.search(r"\"duration\":(\d+)",c).group(1))//1000
+							print(f"{t} - {a} ({d//60}:{d%60:02d})")
+						'
+					-->
+				</ul>
 
 			
 
@@ -227,65 +315,14 @@ Updates:
 				<h4>
 				<a href="mailto:pmlykes@gmail.com">pmlykes@gmail.com</a> <b>·</b>
 				<a href="https://www.linkedin.com/in/palmer-lykes-82635b233">LinkedIn</a> <b>·</b>
-				<a href="https://letterboxd.com/400Troglodytes/">LetterBoxd</a>
+				<a href="https://letterboxd.com/400Troglodytes/">LetterBoxd</a> <b>·</b>
+				<button type="button" id="pml-toggle" class="button">Theme </button>
 				<h4><br><br><br>
 			</footer>
 
 		</div>
-
-		<button type="button" class="pml-badge" id="pml-toggle" title="Cycle day / night / space theme" aria-label="Cycle day, night, and space theme">
-			<canvas id="pml-canvas" width="72" height="72"></canvas>
-		</button>
 		<script>
 		(function() {
-			var canvas = document.getElementById('pml-canvas');
-			var ctx = canvas.getContext('2d');
-			var W = canvas.width, H = canvas.height;
-			ctx.imageSmoothingEnabled = false;
-
-			var GLYPHS = {
-				P: [
-					[1,1,1,1,0],
-					[1,0,0,0,1],
-					[1,0,0,0,1],
-					[1,1,1,1,0],
-					[1,0,0,0,0],
-					[1,0,0,0,0],
-					[1,0,0,0,0]
-				],
-				M: [
-					[1,0,0,0,1],
-					[1,1,0,1,1],
-					[1,0,1,0,1],
-					[1,0,1,0,1],
-					[1,0,0,0,1],
-					[1,0,0,0,1],
-					[1,0,0,0,1]
-				],
-				L: [
-					[1,0,0,0,0],
-					[1,0,0,0,0],
-					[1,0,0,0,0],
-					[1,0,0,0,0],
-					[1,0,0,0,0],
-					[1,0,0,0,0],
-					[1,1,1,1,1]
-				]
-			};
-
-			var PIXEL = 4;
-			var GAP = 1;
-			var letters = ['P', 'M', 'L'];
-			var letterWidth = 5 * PIXEL;
-			var gapWidth = GAP * PIXEL;
-			var totalWidth = letters.length * letterWidth + (letters.length - 1) * gapWidth;
-			var totalHeight = 7 * PIXEL;
-			var startX = Math.round((W - totalWidth) / 2);
-			var startY = Math.round((H - totalHeight) / 2);
-
-			var BAR_COLORS = ['#1f6feb', '#5aa4ff', '#1f6feb'];
-			var SPECK_COLORS = ['178,235,255', '120,180,255', '200,225,255'];
-
 			var toggleBtn = document.getElementById('pml-toggle');
 			var THEME_ORDER = ['day', 'night', 'space'];
 			var stored = localStorage.getItem('pml-theme');
@@ -304,70 +341,6 @@ Updates:
 				localStorage.setItem('pml-theme', theme);
 				applyTheme();
 			});
-
-			function drawLetters() {
-				var barColors = BAR_COLORS;
-				var x = startX;
-				letters.forEach(function(letter) {
-					var grid = GLYPHS[letter];
-					for (var row = 0; row < grid.length; row++) {
-						var color = barColors[row % barColors.length];
-						for (var col = 0; col < grid[row].length; col++) {
-							if (grid[row][col]) {
-								ctx.fillStyle = color;
-								ctx.fillRect(x + col * PIXEL, startY + row * PIXEL, PIXEL, PIXEL);
-							}
-						}
-					}
-					x += letterWidth + gapWidth;
-				});
-			}
-
-			var cx = W / 2, cy = H / 2;
-			var specs = [
-				{ rx: 30, ry: 11, tilt: 0, angle: 0, speed: 0.045, trail: [], colorIndex: 0 },
-				{ rx: 30, ry: 11, tilt: Math.PI / 3, angle: Math.PI * 0.66, speed: 0.038, trail: [], colorIndex: 1 },
-				{ rx: 30, ry: 11, tilt: -Math.PI / 3, angle: Math.PI * 1.3, speed: 0.052, trail: [], colorIndex: 2 }
-			];
-			var TRAIL_LENGTH = 14;
-			var SPECK_PIXEL = 2;
-
-			function drawTrail(trail, wantFront) {
-				trail.forEach(function(point, i) {
-					if (point.front !== wantFront) return;
-					var alpha = (i + 1) / trail.length;
-					var size = SPECK_PIXEL * (alpha > 0.6 ? 1 : (alpha > 0.3 ? 0.75 : 0.5));
-					var px = Math.round(point.x / size) * size;
-					var py = Math.round(point.y / size) * size;
-					ctx.fillStyle = 'rgba(' + point.color + ',' + (alpha * 0.85) + ')';
-					ctx.fillRect(px, py, size, size);
-				});
-			}
-
-			function step() {
-				ctx.clearRect(0, 0, W, H);
-				var speckColors = SPECK_COLORS;
-
-				specs.forEach(function(spec) {
-					spec.angle += spec.speed;
-					var ex = Math.cos(spec.angle) * spec.rx;
-					var ey = Math.sin(spec.angle) * spec.ry;
-					var x = cx + ex * Math.cos(spec.tilt) - ey * Math.sin(spec.tilt);
-					var y = cy + ex * Math.sin(spec.tilt) + ey * Math.cos(spec.tilt);
-					var front = Math.sin(spec.angle) >= 0;
-
-					spec.trail.push({ x: x, y: y, front: front, color: speckColors[spec.colorIndex] });
-					if (spec.trail.length > TRAIL_LENGTH) spec.trail.shift();
-				});
-
-				specs.forEach(function(spec) { drawTrail(spec.trail, false); });
-				drawLetters();
-				specs.forEach(function(spec) { drawTrail(spec.trail, true); });
-
-				requestAnimationFrame(step);
-			}
-
-			requestAnimationFrame(step);
 		})();
 		</script>
 	</body>
