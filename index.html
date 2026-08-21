@@ -10,6 +10,8 @@ Changes:
 -Removed animated initials button, Theme changing button switched to text in footer
 -The Kingfishers line now links to poem
 
+Fixes:
+Website displays properly on mobile again
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -65,11 +67,15 @@ Changes:
 		            html * {
 		                /* line-height: 1.625; */
 		                font-family: Georgia;
+		                box-sizing: border-box;
 		            }
 		            html, body {
 		                background: var(--bg);
 		                color: var(--text);
 		                transition: background 0.5s ease, color 0.5s ease;
+		                width: 100%;
+		                max-width: 100%;
+		                overflow-x: hidden;
 		            }
 		            html.space body {
 		                background-image: url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/7QGhQWRvYmVfUGhvdG9zaG9wMi41OgBIAAAASAAAOEJJTQPpAAAAAAB4AAMAAABIAEgAAAAAAtoCKP/h/+IC+QJGA0cFKAP8AAIAAABIAEgAAAAAAtgCKAABAAAAZAAAAAEAAwMDAAAAAScPAAEAAQAAAAAAAAAAAAAAAGAIABkBkAAAAAAQAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAOEJJTQPtAAAAAAAQAEgAAAABAAEASAAAAAEAAThCSU0D8wAAAAAABwAAAAAAAAAAOEJJTQP1AAAAAABIAC9mZgABAGxmZgAGAAAAAAAAAC9mZgABAKGZmgAGAAAAAAAAADIAAAABAFoAAAAGAAAAAAAAADUAAAABAC0AAAAGAAAAAAAAOEJJTQP4AAAAAABwAAD/////////////////////////////A+gAAAAA/////////////////////////////wPoAAAAAP////////////////////////////8D6AAAAAD/////////////////////////////A+gAAP/uAA5BZG9iZQBkgAAAAAH/2wCEAAUDAwMEAwQEBAUHBQUFBwkHBwcGCQ0NCggKDA0QEA8PDw8RERQUEhISExAUFhYWFhcaGhoZFxoaGhoaGhoaGhoBBQUFBgYGBwcHBwoJCAkJDA0PDw0NEBESFBIRDxAVFRgYFhYSGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGv/AABEIAJAAkAMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAADAAECBAUGBwgJCgsBAAEFAQEBAQEBAAAAAAAAAAEAAgMEBQYHCAkKCxAAAQQBAwIEAgUGBggHAw1hAQACEQMEIRIxBUFRYRMicYEyBhSRobFCIyQVUmIzNMFygkMHJZIIU9HwY3M1FuGi8bKDJkSTVGRFwqN0NhcY0lXiZfKzhMPTdePzRieUpIW0lcTU5PSltcXV5fVWZnaGlqa2xtbm9jdHV2d3h5ent8fX5/coOEhYaHiImKi4yNjo+AkZKTlJWWl5iZmpucnZ6fkKGio6SlpqeoqaqrrK2ur6EQACAgECBAQDBAQGCAYHBmcBAAIRAyExEgRBUWFxIhMFMoGRFKGxQiPBUjPRJPBi4XKC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");
@@ -99,6 +105,12 @@ Changes:
 		                justify-content:center;
 		                min-height:100vh;
 		            }
+		            body > div {
+		                width: 100%;
+		                max-width: 600px;
+		                padding: 0 16px;
+		                overflow-wrap: break-word;
+		            }
 		            header {
 		                font-size: medium;
 		                
@@ -117,6 +129,7 @@ Changes:
 		                flex-direction: row;
 		                overflow-x: auto;
 		                gap: 8px;
+		                width: 100%;
 		                max-width: 480px;
 		                margin: 0;
 		                padding-bottom: 6px;
