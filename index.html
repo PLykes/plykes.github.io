@@ -1,5 +1,5 @@
 <!--
-Website v.1.8.1.3
+Website v.1.8.1.4
 AUG, 27 2026
 
 Additions:
@@ -13,6 +13,7 @@ Changes:
 Fixes:
 -Website displays properly on mobile again
 -2026 Song recap is now an ordered list
+-Bullet Point Spacing fixed
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +30,11 @@ Fixes:
 						--ltext: blue;
 						--vltext: purple;
 		            }
+					
+					ul { padding-left:1.2em; margin-left: 0; }
+					li { margin: 1px 0; }
+
+
 					.button {
 						border: none;
 						color: var(--ltext);
