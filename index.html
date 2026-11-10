@@ -359,7 +359,7 @@ Hotfixes
 			var toggleBtn = document.getElementById('pml-toggle');
 			var THEME_ORDER = ['day', 'night', 'space'];
 			var stored = localStorage.getItem('pml-theme');
-			var theme = (THEME_ORDER.indexOf(stored) !== -1) ? stored : 'day';
+			var theme = (THEME_ORDER.indexOf(stored) !== -1) ? stored : 'night';
 
 			function applyTheme() {
 				document.documentElement.classList.remove('night', 'space');
